@@ -1,0 +1,87 @@
+import { Link } from '@inertiajs/react';
+import MainLayout from '@/layouts/MainLayout';
+import { ArrowLeft } from 'lucide-react';
+
+interface Project {
+    id: number;
+    title: string;
+    slug: string;
+    summary: string;
+    description: string | null;
+    category: string | null;
+    status: string;
+    image_path: string | null;
+}
+
+interface Props {
+    project: Project;
+    otherProjects: Project[];
+}
+
+const STATUS_LABEL: Record<string, string> = {
+    ongoing: 'Ongoing',
+    completed: 'Completed',
+    planned: 'Planned',
+};
+
+export default function ProjectsShow({ project, otherProjects }: Props) {
+    return (
+        <MainLayout title={project.title}>
+            <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
+                <div className="mx-auto max-w-4xl px-6">
+                    <Link href="/projects" className="flex items-center gap-1 text-sm font-medium text-[#F3EEE2]/80 hover:text-[#D4A24C]">
+                        <ArrowLeft size={16} /> Back to Projects
+                    </Link>
+                    <div className="mt-4 flex items-center gap-2">
+                        {project.category && (
+                            <span className="text-xs font-semibold uppercase tracking-wide text-[#D4A24C]">
+                                {project.category}
+                            </span>
+                        )}
+                        <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
+                            {STATUS_LABEL[project.status] ?? project.status}
+                        </span>
+                    </div>
+                    <h1 className="mt-3 font-serif text-3xl font-bold sm:text-4xl">{project.title}</h1>
+                    <p className="mt-4 text-base leading-relaxed text-[#F3EEE2]/85">{project.summary}</p>
+                </div>
+            </section>
+
+            <section className="mx-auto max-w-4xl px-6 py-16">
+                <div className="mb-10 h-64 rounded-xl bg-[#1F4737]/10" />
+                {project.description && (
+                    <p className="whitespace-pre-line text-base leading-relaxed text-[#241F1A]/80">
+                        {project.description}
+                    </p>
+                )}
+            </section>
+
+            {otherProjects.length > 0 && (
+                <section className="bg-[#EAE3D3] py-16">
+                    <div className="mx-auto max-w-7xl px-6">
+                        <h2 className="font-serif text-2xl font-bold text-[#1F4737]">Other Projects</h2>
+                        <div className="mt-8 grid gap-6 md:grid-cols-3">
+                            {otherProjects.map((p) => (
+                                <Link
+                                    key={p.id}
+                                    href={`/projects/${p.slug}`}
+                                    className="group rounded-xl border border-[#1F4737]/10 bg-white p-6 shadow-sm transition hover:shadow-md"
+                                >
+                                    {p.category && (
+                                        <span className="text-xs font-semibold uppercase tracking-wide text-[#D4A24C]">
+                                            {p.category}
+                                        </span>
+                                    )}
+                                    <h3 className="mt-2 font-serif text-base font-semibold text-[#1F4737] group-hover:text-[#D4A24C]">
+                                        {p.title}
+                                    </h3>
+                                    <p className="mt-2 text-sm leading-relaxed text-[#241F1A]/70">{p.summary}</p>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+        </MainLayout>
+    );
+}

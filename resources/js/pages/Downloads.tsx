@@ -1,0 +1,67 @@
+import MainLayout from '@/layouts/MainLayout';
+import { FileText, Download as DownloadIcon } from 'lucide-react';
+
+interface Document {
+    id: number;
+    title: string;
+    category: string | null;
+    file_path: string;
+    file_size: string | null;
+    uploaded_at: string | null;
+}
+
+interface Props {
+    documentsByCategory: Record<string, Document[]>;
+}
+
+export default function Downloads({ documentsByCategory }: Props) {
+    const categories = Object.keys(documentsByCategory);
+
+    return (
+        <MainLayout title="Downloads">
+            <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
+                <div className="mx-auto max-w-7xl px-6">
+                    <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#D4A24C]">Resources</p>
+                    <h1 className="mt-3 font-serif text-3xl font-bold sm:text-4xl">Downloads</h1>
+                    <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[#F3EEE2]/80">
+                        Policies, forms, and public documents from Mariakani Municipality.
+                    </p>
+                </div>
+            </section>
+
+            <section className="mx-auto max-w-5xl px-6 py-16">
+                {categories.length === 0 ? (
+                    <p className="text-sm text-[#241F1A]/60">No documents published yet.</p>
+                ) : (
+                    <div className="space-y-12">
+                        {categories.map((category) => (
+                            <div key={category}>
+                                <h2 className="font-serif text-xl font-semibold text-[#1F4737]">{category}</h2>
+                                <div className="mt-4 divide-y divide-[#1F4737]/10 rounded-xl border border-[#1F4737]/10 bg-white shadow-sm">
+                                    {documentsByCategory[category].map((doc) => (
+                                        <a
+                                            key={doc.id}
+                                            href={`/storage/${doc.file_path}`}
+                                            className="flex items-center justify-between gap-4 px-6 py-4 transition hover:bg-[#EAE3D3]/40"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <FileText className="shrink-0 text-[#D4A24C]" size={20} />
+                                                <div>
+                                                    <p className="text-sm font-medium text-[#1F4737]">{doc.title}</p>
+                                                    {doc.file_size && (
+                                                        <p className="text-xs text-[#241F1A]/50">{doc.file_size}</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <DownloadIcon className="shrink-0 text-[#1F4737]/40" size={18} />
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </section>
+        </MainLayout>
+    );
+}
