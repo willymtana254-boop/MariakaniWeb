@@ -22,7 +22,7 @@ interface Props {
 
 export default function About({ mission, objectives, functions: municipalFunctions, boundaries, wards }: Props) {
     return (
-        <MainLayout title="About Us">
+        <>
             {/* Hero */}
             <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
                 <div className="mx-auto max-w-7xl px-6">
@@ -73,6 +73,6 @@ export default function About({ mission, objectives, functions: municipalFunctio
                     </div>
                 )}
             </section>
-        </MainLayout>
+        </>
     );
 }

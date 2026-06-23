@@ -1,5 +1,5 @@
-import { Link } from '@inertiajs/react';
 import MainLayout from '@/layouts/MainLayout';
+import { Link } from '@inertiajs/react';
 import { ArrowRight } from 'lucide-react';
 
 interface ContentBlock {
@@ -71,7 +71,7 @@ export default function Home({
     latestNews,
 }: Props) {
     return (
-        <MainLayout title="Home">
+        <>
             {/* Hero */}
             <section className="relative overflow-hidden bg-[#1F4737] text-[#F3EEE2]">
                 <svg
@@ -261,6 +261,6 @@ export default function Home({
                     </div>
                 </section>
             )}
-        </MainLayout>
+        </>
     );
 }

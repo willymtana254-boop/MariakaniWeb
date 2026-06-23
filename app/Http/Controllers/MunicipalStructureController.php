@@ -11,7 +11,7 @@ class MunicipalStructureController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('MunicipalStructure', [
+        return Inertia::render('municipalStructure', [
             'boardMembers' => BoardMember::orderBy('order')->get(),
             'wards' => Ward::orderBy('order')->get(),
         ]);

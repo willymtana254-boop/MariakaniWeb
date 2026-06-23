@@ -11,7 +11,7 @@ class AboutController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('About', [
+        return Inertia::render('about', [
             'mission' => ContentBlock::get('mission'),
             'objectives' => ContentBlock::get('objectives'),
             'functions' => ContentBlock::get('functions'),

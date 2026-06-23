@@ -1,4 +1,4 @@
-import MainLayout from '@/layouts/MainLayout';
+import MainLayout from "@/layouts/MainLayout";
 
 interface BoardMember {
     id: number;
@@ -21,7 +21,7 @@ interface Props {
 
 export default function MunicipalStructure({ boardMembers, wards }: Props) {
     return (
-        <MainLayout title="Municipal Structure">
+        <>
             {/* Hero */}
             <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
                 <div className="mx-auto max-w-7xl px-6">
@@ -83,6 +83,6 @@ export default function MunicipalStructure({ boardMembers, wards }: Props) {
                     </div>
                 </section>
             )}
-        </MainLayout>
+        </>
     );
 }

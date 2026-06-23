@@ -15,7 +15,7 @@ class HomeController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('Home', [
+        return Inertia::render('home', [
             'objectives' => ContentBlock::get('objectives'),
             'functions' => ContentBlock::get('functions'),
             'boundaries' => ContentBlock::get('boundaries'),

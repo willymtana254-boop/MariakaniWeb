@@ -1,5 +1,5 @@
-import { Link } from '@inertiajs/react';
 import MainLayout from '@/layouts/MainLayout';
+import { Link } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
 
 interface Project {
