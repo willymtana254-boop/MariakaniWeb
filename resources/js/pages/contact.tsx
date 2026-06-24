@@ -1,6 +1,6 @@
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-import MainLayout from '@/Layouts/MainLayout';
+import MainLayout from '@/layouts/MainLayout';
 import { Mail, MapPin, Phone } from 'lucide-react';
 
 interface Props {
