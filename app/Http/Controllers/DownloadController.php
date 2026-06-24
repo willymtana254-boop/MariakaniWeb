@@ -12,7 +12,7 @@ class DownloadController extends Controller
     {
         $documents = DownloadDocument::orderByDesc('uploaded_at')->get();
 
-        return Inertia::render('Downloads', [
+        return Inertia::render('downloads', [
             'documentsByCategory' => $documents->groupBy(fn ($doc) => $doc->category ?? 'General'),
         ]);
     }

@@ -67,10 +67,10 @@ export default function Navbar() {
                     ) : (
                         <>
                             <Link
-                                href={login()}
-                                className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                              href="/login"
+                              className="rounded-md bg-[#D4A24C] px-4 py-2 text-sm font-semibold text-[#1A3C2F] transition hover:bg-[#e3b563]"
                             >
-                                Log in
+                              Log in
                             </Link>
                         </>
                     )}

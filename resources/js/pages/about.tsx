@@ -22,8 +22,7 @@ interface Props {
 
 export default function About({ mission, objectives, functions: municipalFunctions, boundaries, wards }: Props) {
     return (
-        <>
-            {/* Hero */}
+        <MainLayout title="About Us">
             <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
                 <div className="mx-auto max-w-7xl px-6">
                     <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#D4A24C]">About Us</p>
@@ -31,14 +30,12 @@ export default function About({ mission, objectives, functions: municipalFunctio
                 </div>
             </section>
 
-            {/* Mission */}
             {mission && (
                 <section className="mx-auto max-w-4xl px-6 py-16">
                     <p className="text-base leading-relaxed text-[#241F1A]/80">{mission.body}</p>
                 </section>
             )}
 
-            {/* Objectives & Functions */}
             <section className="bg-[#EAE3D3] py-16">
                 <div className="mx-auto grid max-w-7xl gap-6 px-6 md:grid-cols-2">
                     {[objectives, municipalFunctions].filter(Boolean).map((block) => (
@@ -50,7 +47,6 @@ export default function About({ mission, objectives, functions: municipalFunctio
                 </div>
             </section>
 
-            {/* Boundaries & Wards */}
             <section className="mx-auto max-w-7xl px-6 py-16">
                 {boundaries && (
                     <div className="max-w-3xl">
@@ -58,7 +54,6 @@ export default function About({ mission, objectives, functions: municipalFunctio
                         <p className="mt-3 text-sm leading-relaxed text-[#241F1A]/75">{boundaries.body}</p>
                     </div>
                 )}
-
                 {wards.length > 0 && (
                     <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {wards.map((ward, i) => (
@@ -73,6 +68,6 @@ export default function About({ mission, objectives, functions: municipalFunctio
                     </div>
                 )}
             </section>
-        </>
+        </MainLayout>
     );
 }

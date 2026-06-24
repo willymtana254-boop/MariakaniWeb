@@ -8,7 +8,6 @@ interface Project {
     summary: string;
     category: string | null;
     status: string;
-    image_path: string | null;
 }
 
 interface Props {
@@ -23,7 +22,7 @@ const STATUS_LABEL: Record<string, string> = {
 
 export default function ProjectsIndex({ projects }: Props) {
     return (
-        <>
+        <MainLayout title="Projects">
             <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
                 <div className="mx-auto max-w-7xl px-6">
                     <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#D4A24C]">Development</p>
@@ -40,26 +39,19 @@ export default function ProjectsIndex({ projects }: Props) {
                 ) : (
                     <div className="grid gap-6 md:grid-cols-3">
                         {projects.map((project) => (
-                            <Link
-                                key={project.id}
-                                href={`/projects/${project.slug}`}
-                                className="group overflow-hidden rounded-xl border border-[#1F4737]/10 bg-white shadow-sm transition hover:shadow-md"
-                            >
+                            <Link key={project.id} href={`/projects/${project.slug}`}
+                                className="group overflow-hidden rounded-xl border border-[#1F4737]/10 bg-white shadow-sm transition hover:shadow-md">
                                 <div className="h-40 bg-[#1F4737]/10" />
                                 <div className="p-5">
                                     <div className="flex items-center gap-2">
                                         {project.category && (
-                                            <span className="text-xs font-semibold uppercase tracking-wide text-[#D4A24C]">
-                                                {project.category}
-                                            </span>
+                                            <span className="text-xs font-semibold uppercase tracking-wide text-[#D4A24C]">{project.category}</span>
                                         )}
                                         <span className="rounded-full bg-[#1F4737]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#1F4737]">
                                             {STATUS_LABEL[project.status] ?? project.status}
                                         </span>
                                     </div>
-                                    <h3 className="mt-2 font-serif text-base font-semibold text-[#1F4737] group-hover:text-[#D4A24C]">
-                                        {project.title}
-                                    </h3>
+                                    <h3 className="mt-2 font-serif text-base font-semibold text-[#1F4737] group-hover:text-[#D4A24C]">{project.title}</h3>
                                     <p className="mt-2 text-sm leading-relaxed text-[#241F1A]/70">{project.summary}</p>
                                 </div>
                             </Link>
@@ -67,6 +59,6 @@ export default function ProjectsIndex({ projects }: Props) {
                     </div>
                 )}
             </section>
-        </>
+        </MainLayout>
     );
 }

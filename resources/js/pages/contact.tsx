@@ -1,6 +1,6 @@
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-import MainLayout from '@/layouts/MainLayout';
+import MainLayout from '@/Layouts/MainLayout';
 import { Mail, MapPin, Phone } from 'lucide-react';
 
 interface Props {
@@ -22,7 +22,7 @@ export default function Contact({ flash }: Props) {
     };
 
     return (
-        <>
+        <MainLayout title="Contact Us">
             <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
                 <div className="mx-auto max-w-7xl px-6">
                     <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#D4A24C]">Get in touch</p>
@@ -87,11 +87,20 @@ export default function Contact({ flash }: Props) {
 
                     <div>
                         <label className="text-sm font-medium text-[#1F4737]">Subject</label>
-                        <input
+                        <select
                             value={data.subject}
                             onChange={(e) => setData('subject', e.target.value)}
-                            className="mt-1 w-full rounded-md border border-[#1F4737]/20 px-3 py-2 text-sm focus:border-[#1F4737] focus:outline-none"
-                        />
+                            className="mt-1 w-full rounded-md border border-[#1F4737]/20 bg-white px-3 py-2 text-sm focus:border-[#1F4737] focus:outline-none"
+                        >
+                            <option value="">Select a subject</option>
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Service Request">Service Request</option>
+                            <option value="Complaint">Complaint</option>
+                            <option value="Business Permit & Licensing">Business Permit & Licensing</option>
+                            <option value="Land & Planning">Land & Planning</option>
+                            <option value="Procurement / Tenders">Procurement / Tenders</option>
+                            <option value="Other">Other</option>
+                        </select>
                         {errors.subject && <p className="mt-1 text-xs text-red-600">{errors.subject}</p>}
                     </div>
 
@@ -115,6 +124,6 @@ export default function Contact({ flash }: Props) {
                     </button>
                 </form>
             </section>
-        </>
+        </MainLayout>
     );
 }
