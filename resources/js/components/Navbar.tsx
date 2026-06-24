@@ -1,6 +1,8 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
+import { dashboard, login } from '@/routes';
+import { register } from '@/routes';
 
 const NAV_LINKS = [
     { label: 'Home', href: '/' },
@@ -15,6 +17,7 @@ const NAV_LINKS = [
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const { url } = usePage();
+    const { auth } = usePage().props;
 
     return (
         <header className="sticky top-0 z-50 bg-[#1F4737] text-[#F3EEE2] shadow-md">
@@ -53,7 +56,25 @@ export default function Navbar() {
                         </Link>
                     ))}
                 </nav>
-
+                <nav className="flex items-center justify-end gap-4">
+                    {auth.user ? (
+                        <Link
+                            href={dashboard()}
+                            className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                        >
+                            Dashboard
+                        </Link>
+                    ) : (
+                        <>
+                            <Link
+                                href={login()}
+                                className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                            >
+                                Log in
+                            </Link>
+                        </>
+                    )}
+                </nav>
                 <button
                     onClick={() => setOpen(!open)}
                     className="rounded-md p-2 text-[#F3EEE2] lg:hidden"

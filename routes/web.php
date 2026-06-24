@@ -11,6 +11,9 @@ use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/welcome', function(){
+    Inertia::render('welcome');
+} );
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/municipal-structure', [MunicipalStructureController::class, 'index'])->name('structure');
 
