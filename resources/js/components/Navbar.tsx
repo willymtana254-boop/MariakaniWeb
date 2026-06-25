@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { Menu, X, ChevronDown, Phone, Mail, MapPin } from 'lucide-react';
+import { dashboard, login } from '@/routes';
 
 const DOWNLOAD_CATEGORIES = [
     'Boards Affairs','Financial Reports','Budget Documents',
@@ -22,6 +23,7 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
     const [mobileExpanded, setMobileExpanded] = useState<string|null>(null);
     const { url } = usePage();
+    const { auth } = usePage().props;
 
     return (
         <header className="sticky top-0 z-50 shadow-lg">
@@ -115,10 +117,30 @@ export default function Navbar() {
                             </div>
                         ))}
                     </div>
-                    <Link href="/login"
+                    {auth.user ? (
+                        <Link
+                            href={dashboard()}
+                            className="hidden lg:block rounded bg-[#F5A623] px-5 py-2 text-sm font-bold text-[#1a2a4a] transition hover:bg-[#e09b1a] my-2"
+                        >
+                            Dashboard
+                        </Link>
+                    ) : (
+                        <>
+                            <Link
+                                href={login()}
+                                className="hidden lg:block rounded bg-[#F5A623] px-5 py-2 text-sm font-bold text-[#1a2a4a] transition hover:bg-[#e09b1a] my-2"
+                    >
+                        
+                                Log in
+                            </Link>
+                            
+                        </>
+                    )}
+                    
+                    {/* <Link href="/login"
                         className="hidden lg:block rounded bg-[#F5A623] px-5 py-2 text-sm font-bold text-[#1a2a4a] transition hover:bg-[#e09b1a] my-2">
                         Log in
-                    </Link>
+                    </Link> */}
                     <button onClick={()=>setOpen(!open)} className="p-2 text-white lg:hidden" aria-label="Toggle menu">
                         {open ? <X size={22}/> : <Menu size={22}/>}
                     </button>
