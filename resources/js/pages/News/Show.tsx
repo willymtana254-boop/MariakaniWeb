@@ -23,7 +23,7 @@ function formatDate(date: string) {
 export default function NewsShow({ article, otherNews }: Props) {
    return (
         <MainLayout title={article.title}>
-            <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
+        <section className="bg-[#1e3a8a] py-16 text-[#F3EEE2]">
                 <div className="mx-auto max-w-3xl px-6">
                     <Link href="/news" className="flex items-center gap-1 text-sm font-medium text-[#F3EEE2]/80 hover:text-[#D4A24C]">
                         <ArrowLeft size={16} /> Back to News
@@ -40,7 +40,7 @@ export default function NewsShow({ article, otherNews }: Props) {
             <section className="mx-auto max-w-3xl px-6 py-16">
                 <div className="mb-10 h-64 rounded-xl bg-[#1F4737]/10" />
                 {article.body && (
-                    <p className="whitespace-pre-line text-base leading-relaxed text-[#241F1A]/80">{article.body}</p>
+                    <p className="whitespace-pre-line text-base leading-relaxed text-[#1F4737]">{article.body}</p>
                 )}
             </section>
 

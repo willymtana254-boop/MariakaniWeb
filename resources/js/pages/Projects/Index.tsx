@@ -23,7 +23,7 @@ const STATUS_LABEL: Record<string, string> = {
 export default function ProjectsIndex({ projects }: Props) {
     return (
         <MainLayout title="Projects">
-            <section className="bg-[#1F4737] py-16 text-[#F3EEE2]">
+            <section className="bg-[#1e3a8a] py-16 text-[#F3EEE2]">
                 <div className="mx-auto max-w-7xl px-6">
                     <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#D4A24C]">Development</p>
                     <h1 className="mt-3 font-serif text-3xl font-bold sm:text-4xl">Projects</h1>

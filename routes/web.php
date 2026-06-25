@@ -15,7 +15,7 @@ Route::get('/welcome', function(){
     Inertia::render('welcome');
 } );
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/municipal-structure', [MunicipalStructureController::class, 'index'])->name('structure');
+Route::get('/municipal-structure', [MunicipalStructureController::class, 'index'])->name('municipal-structure');
 
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
