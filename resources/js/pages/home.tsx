@@ -25,67 +25,147 @@ interface Props {
 
 export default function Home({ objectives, functions: municipalFunctions, boundaries, governorMessage, stats, wards, featuredProjects, boardPreview, latestNews }: Props) {
     const [slide, setSlide] = useState(0);
+    const [paused, setPaused] = useState(false);
+
     useEffect(() => {
-        const t = setInterval(() => setSlide(s => (s+1) % HERO_SLIDES.length), 6000);
+        if (paused) return;
+        const t = setInterval(() => setSlide(s => (s + 1) % HERO_SLIDES.length), 6500);
         return () => clearInterval(t);
-    }, []);
+    }, [paused]);
 
     return (
         <MainLayout title="Home">
-            {/* Hero */}
-            <section className="relative isolate overflow-hidden bg-[#1a3a6b] text-white" style={{minHeight:'520px'}}>
+            {/* ============ HERO ============ */}
+            <section
+                className="relative isolate overflow-hidden text-white"
+                style={{ minHeight: '600px' }}
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => setPaused(false)}
+            >
                 {HERO_SLIDES.map((s, i) => (
-                    <div key={s.src} className="absolute inset-0 -z-10 bg-cover bg-center transition-opacity duration-1000"
-                        style={{ backgroundImage: `url(${s.src})`, opacity: i === slide ? 1 : 0 }}/>
+                    <div
+                        key={s.src}
+                        aria-hidden={i !== slide}
+                        className="absolute inset-0 -z-20 scale-105 bg-cover bg-center transition-opacity duration-[1400ms] ease-out"
+                        style={{ backgroundImage: `url(${s.src})`, opacity: i === slide ? 1 : 0 }}
+                    />
                 ))}
-                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#1a3a6b]/92 via-[#1a3a6b]/70 to-[#1a3a6b]/20"/>
-                <button onClick={() => setSlide(s=>(s-1+HERO_SLIDES.length)%HERO_SLIDES.length)}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white hover:bg-black/50 transition">
-                    <ChevronLeft size={18}/>
+                
+
+                <button
+                    onClick={() => setSlide(s => (s - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
+                    aria-label="Previous slide"
+                    className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7941D]"
+                >
+                    <ChevronLeft size={18} />
                 </button>
-                <button onClick={() => setSlide(s=>(s+1)%HERO_SLIDES.length)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white hover:bg-black/50 transition">
-                    <ChevronRight size={18}/>
+                <button
+                    onClick={() => setSlide(s => (s + 1) % HERO_SLIDES.length)}
+                    aria-label="Next slide"
+                    className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7941D]"
+                >
+                    <ChevronRight size={18} />
                 </button>
-                <div className="relative mx-auto max-w-7xl px-6 py-28 sm:py-36">
-                    <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#FFBC02]">{HERO_SLIDES[slide].tag}</p>
-                    <h1 className="mt-4 max-w-2xl font-serif text-4xl font-bold leading-tight sm:text-5xl">{HERO_SLIDES[slide].headline}</h1>
-                    <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/80 sm:text-base">{HERO_SLIDES[slide].sub}</p>
-                    <div className="mt-8 flex flex-wrap gap-4">
-                        <Link href="/about" className="rounded bg-[#FFBC02] px-7 py-3 text-sm font-bold text-[#1a3a6b] hover:bg-[#e6aa00] transition">Learn More</Link>
-                        <Link href="/contact" className="rounded border border-white/40 px-7 py-3 text-sm font-semibold text-white hover:border-white transition">Contact Us</Link>
+
+                <div className="relative mx-auto flex min-h-150 max-w-7xl flex-col justify-center px-6 py-28">
+                    <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.35em] text-[#F7941D]">
+                        <span className="h-px w-8 bg-[#F7941D]" />
+                        {HERO_SLIDES[slide].tag}
+                    </p>
+                    <h1 className="mt-5 max-w-3xl font-serif text-[2.5rem] font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+                        {HERO_SLIDES[slide].headline.split(' ').map((word, idx, arr) =>
+                            idx === arr.length - 1
+                                ? <span key={idx} className="text-[#5BBE6B]">{word}</span>
+                                : <span key={idx}>{word} </span>
+                        )}
+                    </h1>
+                    <p className="mt-6 max-w-lg text-base leading-relaxed text-white/80">
+                        {HERO_SLIDES[slide].sub}
+                    </p>
+                    <div className="mt-9 flex flex-wrap gap-4">
+                        <Link
+                            href="/about"
+                            className="group inline-flex items-center gap-2 rounded-md bg-[#F7941D] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#F7941D]/20 transition hover:bg-[#e08a1a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        >
+                            Learn More
+                            <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+                        </Link>
+                        <Link
+                            href="/contact"
+                            className="rounded-md border border-white/35 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        >
+                            Contact Us
+                        </Link>
                     </div>
-                    <div className="mt-10 flex gap-2">
-                        {HERO_SLIDES.map((_,i) => (
-                            <button key={i} onClick={()=>setSlide(i)} className={`h-1 rounded-full transition-all ${i===slide?'w-8 bg-[#FFBC02]':'w-3 bg-white/30'}`}/>
+
+                    <div className="mt-12 flex gap-2" role="tablist" aria-label="Hero slides">
+                        {HERO_SLIDES.map((s, i) => (
+                            <button
+                                key={s.src}
+                                role="tab"
+                                aria-selected={i === slide}
+                                aria-label={`Show slide ${i + 1}: ${s.alt}`}
+                                onClick={() => setSlide(i)}
+                                className={`h-1 rounded-full transition-all duration-300 ${i === slide ? 'w-9 bg-[#F7941D]' : 'w-3 bg-white/30 hover:bg-white/50'}`}
+                            />
                         ))}
                     </div>
                 </div>
+
+                {/* coastal wave signature, divides hero from page */}
+                <svg
+                    className="absolute -bottom-px left-0 z-10 h-12 w-full text-white sm:h-16"
+                    viewBox="0 0 1440 80"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="M0,40 C240,80 480,0 720,32 C960,64 1200,16 1440,40 L1440,80 L0,80 Z"
+                        fill="currentColor"
+                    />
+                </svg>
             </section>
 
-            {/* Welcome + Cards */}
-            <section className="bg-white py-16">
+            {/* ============ WELCOME + PILLARS ============ */}
+            <section className="bg-white py-20 sm:py-24">
                 <div className="mx-auto max-w-7xl px-6">
-                    <div className="mb-10 grid gap-6 md:grid-cols-2 md:items-center">
+                    <div className="mb-14 grid gap-8 md:grid-cols-2 md:items-end">
                         <div>
-                            <div className="mb-3 h-0.5 w-10 bg-[#FFBC02]"/>
-                            <h2 className="font-serif text-3xl font-bold text-[#1a3a6b]">Welcome to the<br/>Municipality of Mariakani.</h2>
+                            <p className="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-[#F7941D]">
+                                <span className="h-px w-8 bg-[#F7941D]" /> Welcome
+                            </p>
+                            <h2 className="font-serif text-3xl font-bold leading-tight text-[#007bff] sm:text-4xl">
+                                Welcome to the Municipality<br className="hidden sm:block" /> of Mariakani.
+                            </h2>
                         </div>
-                        <p className="text-sm leading-relaxed text-[#1a3a6b]/75">
-                            Mariakani Municipality is set out to provide urban governance that will strive to ensure efficient and effective service delivery to the community as mandated by the Urban Areas and Cities Act and the Mariakani Municipal Charter.
+                        <p className="text-[15px] leading-relaxed text-slate-600">
+                            Mariakani Municipality is set out to provide urban governance that will strive to ensure
+                            efficient and effective service delivery to the community as mandated by the Urban Areas
+                            and Cities Act and the Mariakani Municipal Charter.
                         </p>
                     </div>
-                    <div className="grid gap-5 md:grid-cols-3">
+
+                    <div className="grid gap-6 md:grid-cols-3">
                         {[objectives, municipalFunctions, boundaries].filter(Boolean).map((block, idx) => {
                             const Icon = CARD_ICONS[idx];
                             return (
-                                <div key={block!.key} className="rounded-lg bg-[#1a3a6b] p-7 shadow-md border-l-4 border-[#FFBC02]">
-                                    <Icon size={40} className="text-[#FFBC02] mb-4"/>
-                                    <h3 className="font-bold text-[#FFBC02] text-base mb-3">{block!.title}</h3>
-                                    <p className="text-sm leading-relaxed text-white/75">{block!.body}</p>
+                                <div
+                                    key={block!.key}
+                                    className="group relative overflow-hidden rounded-xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60"
+                                >
+                                    <span className="absolute left-0 top-0 h-full w-1 bg-[#F7941D] transition-all duration-300 group-hover:w-1.5" />
+                                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-[#007bff]">
+                                        <Icon size={22} className="text-[#F7941D]" />
+                                    </div>
+                                    <h3 className="mb-3 font-serif text-lg font-bold text-[#007bff]">{block!.title}</h3>
+                                    <p className="text-sm leading-relaxed text-slate-600">{block!.body}</p>
                                     {block!.key === 'boundaries' && wards.length > 0 && (
-                                        <ul className="mt-4 space-y-1 text-xs text-white/60">
-                                            {wards.map((w,i) => <li key={w.id}>{i+1}. {w.name}</li>)}
+                                        <ul className="mt-5 grid grid-cols-2 gap-x-3 gap-y-1.5 border-t border-slate-100 pt-4 text-xs text-slate-500">
+                                            {wards.map((w, i) => (
+                                                <li key={w.id} className="flex items-center gap-1.5">
+                                                    <span className="text-[#F7941D]">{String(i + 1).padStart(2, '0')}</span> {w.name}
+                                                </li>
+                                            ))}
                                         </ul>
                                     )}
                                 </div>
@@ -95,37 +175,55 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                 </div>
             </section>
 
-            {/* Governor's Message */}
+            {/* ============ GOVERNOR'S MESSAGE ============ */}
             {governorMessage && (
-                <section className="bg-gray-50 py-16">
-                    <div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-[auto_1fr] md:items-start">
-                        <div className="flex h-44 w-44 items-center justify-center rounded-full bg-[#1a3a6b]/10 font-serif text-5xl font-bold text-[#1a3a6b]/30 shrink-0">
+                <section className="bg-[#F8FAFC] py-20 sm:py-24">
+                    <div className="mx-auto grid max-w-7xl gap-12 px-6 md:grid-cols-[220px_1fr] md:items-start">
+                        <div className="flex h-44 w-44 shrink-0 items-center justify-center rounded-full bg-[#007bff] font-serif text-5xl font-bold text-[#F7941D] shadow-md">
                             {governorMessage.byline?.[0] ?? 'G'}
                         </div>
                         <div>
-                            <div className="mb-2 h-0.5 w-8 bg-[#FFBC02]"/>
-                            <h2 className="font-serif text-2xl font-bold text-[#1a3a6b]">{governorMessage.title}</h2>
-                            <p className="mt-4 text-sm italic leading-relaxed text-[#1a3a6b]/70">{governorMessage.body}</p>
-                            <p className="mt-5 font-bold text-[#1a3a6b]">{governorMessage.byline}</p>
-                            <p className="text-sm text-[#1a3a6b]/60">{governorMessage.byline_role}</p>
+                            <p className="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-[#F7941D]">
+                                <span className="h-px w-8 bg-[#F7941D]" /> Message
+                            </p>
+                            <h2 className="font-serif text-2xl font-bold text-[#007bff] sm:text-3xl">{governorMessage.title}</h2>
+                            <p className="relative mt-6 pl-5 text-[15px] italic leading-relaxed text-slate-600 before:absolute before:left-0 before:top-0 before:h-full before:w-0.5 before:bg-[#F7941D]/40">
+                                {governorMessage.body}
+                            </p>
+                            <p className="mt-6 font-bold text-[#007bff]">{governorMessage.byline}</p>
+                            <p className="text-sm text-slate-500">{governorMessage.byline_role}</p>
                         </div>
                     </div>
                 </section>
             )}
 
-            {/* Stats */}
+            {/* ============ STATS ============ */}
             {stats.length > 0 && (
-                <section className="bg-[#1a3a6b] py-16 text-white">
-                    <div className="mx-auto max-w-7xl px-6">
-                        <div className="mb-8">
-                            <div className="mb-3 h-0.5 w-8 bg-[#FFBC02]"/>
-                            <h2 className="font-serif text-2xl font-bold">Advancing Urban Renewal, Economic Growth, and Environmental Sustainability</h2>
+                <section className="relative overflow-hidden bg-[#007bff] py-20 sm:py-24">
+                    <div
+                        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+                        style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '28px 28px' }}
+                        aria-hidden="true"
+                    />
+                    <div className="relative mx-auto max-w-7xl px-6">
+                        <div className="mb-12 max-w-2xl">
+                            <p className="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-[#F7941D]">
+                                <span className="h-px w-8 bg-[#F7941D]" /> By the numbers
+                            </p>
+                            <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl">
+                                Advancing urban renewal, economic growth, and environmental sustainability.
+                            </h2>
                         </div>
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10 lg:grid-cols-4">
                             {stats.map(stat => (
-                                <div key={stat.id} className="flex flex-col items-center justify-center rounded-full border-2 border-[#FFBC02]/40 bg-white/5 aspect-square max-w-[160px] mx-auto text-center p-4">
-                                    <p className="font-serif text-3xl font-bold text-white">{stat.value}<span className="text-[#FFBC02]">{stat.suffix}</span></p>
-                                    <p className="mt-1 text-xs uppercase tracking-wide text-white/70">{stat.label}</p>
+                                <div
+                                    key={stat.id}
+                                    className="flex flex-col items-center justify-center gap-1 bg-[#007bff] px-4 py-10 text-center transition-colors hover:bg-white/[0.04]"
+                                >
+                                    <p className="font-serif text-4xl font-bold text-white">
+                                        {stat.value}<span className="text-[#F7941D]">{stat.suffix}</span>
+                                    </p>
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-white/55">{stat.label}</p>
                                 </div>
                             ))}
                         </div>
@@ -133,29 +231,46 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                 </section>
             )}
 
-            {/* Featured Projects */}
+            {/* ============ FEATURED PROJECTS ============ */}
             {featuredProjects.length > 0 && (
-                <section className="bg-white py-16">
+                <section className="bg-white py-20 sm:py-24">
                     <div className="mx-auto max-w-7xl px-6">
-                        <div className="mb-8 flex items-end justify-between">
+                        <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
                             <div>
-                                <div className="mb-2 h-0.5 w-8 bg-[#FFBC02]"/>
-                                <h2 className="font-serif text-2xl font-bold text-[#1a3a6b]">Featured Projects</h2>
+                                <p className="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-[#F7941D]">
+                                    <span className="h-px w-8 bg-[#F7941D]" /> Projects
+                                </p>
+                                <h2 className="font-serif text-2xl font-bold text-[#007bff] sm:text-3xl">Featured Projects</h2>
                             </div>
-                            <Link href="/projects" className="flex items-center gap-1 text-sm font-semibold text-[#1a3a6b] hover:text-[#FFBC02]">
-                                View all <ArrowRight size={16}/>
+                            <Link
+                                href="/projects"
+                                className="group flex items-center gap-1.5 text-sm font-semibold text-[#007bff] transition hover:text-[#F7941D]"
+                            >
+                                View all <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                             </Link>
                         </div>
-                        <div className="grid gap-6 md:grid-cols-3">
+                        <div className="grid gap-7 md:grid-cols-3">
                             {featuredProjects.map(p => (
-                                <Link key={p.id} href={`/projects/${p.slug}`}
-                                    className="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
-                                    <div className="h-44 bg-[#1a3a6b]/10"/>
-                                    <div className="p-5">
-                                        {p.category && <span className="text-xs font-bold uppercase text-[#FFBC02]">{p.category}</span>}
-                                        <h3 className="mt-2 font-bold text-[#1a3a6b] group-hover:text-[#FFBC02] transition">{p.title}</h3>
-                                        <p className="mt-2 text-sm text-[#1a3a6b]/70 leading-relaxed">{p.summary}</p>
-                                        <p className="mt-3 text-xs font-bold text-[#FFBC02] flex items-center gap-1">Read more <ArrowRight size={12}/></p>
+                                <Link
+                                    key={p.id}
+                                    href={`/projects/${p.slug}`}
+                                    className="group overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60"
+                                >
+                                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-[#007bff] to-[#007bff]/70">
+                                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(247,148,29,0.25),transparent_60%)]" />
+                                    </div>
+                                    <div className="p-6">
+                                        {p.category && (
+                                            <span className="text-[11px] font-bold uppercase tracking-wide text-[#F7941D]">{p.category}</span>
+                                        )}
+                                        <h3 className="mt-2 font-serif text-lg font-bold text-[#007bff] transition-colors group-hover:text-[#F7941D]">
+                                            {p.title}
+                                        </h3>
+                                        <p className="mt-3 text-sm leading-relaxed text-slate-600">{p.summary}</p>
+                                        <p className="mt-4 flex items-center gap-1 text-xs font-bold text-[#F7941D]">
+                                            Read more
+                                            <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
+                                        </p>
                                     </div>
                                 </Link>
                             ))}
@@ -164,51 +279,71 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                 </section>
             )}
 
-            {/* Board Members */}
+            {/* ============ BOARD MEMBERS ============ */}
             {boardPreview.length > 0 && (
-                <section className="bg-gray-50 py-16">
+                <section className="bg-[#F8FAFC] py-20 sm:py-24">
                     <div className="mx-auto max-w-7xl px-6">
-                        <div className="mb-8">
-                            <div className="mb-2 h-0.5 w-8 bg-[#FFBC02]"/>
-                            <h2 className="font-serif text-2xl font-bold text-[#1a3a6b]">Board Members</h2>
-                            <p className="mt-1 text-sm text-[#1a3a6b]/60">We always work with a great team.</p>
+                        <div className="mb-12">
+                            <p className="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-[#F7941D]">
+                                <span className="h-px w-8 bg-[#F7941D]" /> Leadership
+                            </p>
+                            <h2 className="font-serif text-2xl font-bold text-[#007bff] sm:text-3xl">Board Members</h2>
+                            <p className="mt-2 text-sm text-slate-500">We always work with a great team.</p>
                         </div>
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+                        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
                             {boardPreview.map(m => (
-                                <div key={m.id} className="text-center">
-                                    <div className="mx-auto h-24 w-24 rounded-full bg-[#1a3a6b]/10"/>
-                                    <h3 className="mt-3 text-sm font-bold text-[#1a3a6b]">{m.name}</h3>
-                                    <p className="text-xs font-semibold uppercase tracking-wide text-[#FFBC02]">{m.role}</p>
+                                <div key={m.id} className="group text-center">
+                                    <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-[#007bff] to-[#007bff]/70 ring-4 ring-white transition-transform duration-300 group-hover:scale-105">
+                                        <div className="absolute inset-0 flex items-center justify-center font-serif text-2xl font-bold text-[#F7941D]">
+                                            {m.name.charAt(0)}
+                                        </div>
+                                    </div>
+                                    <h3 className="mt-4 text-sm font-bold text-[#007bff]">{m.name}</h3>
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-[#F7941D]">{m.role}</p>
                                 </div>
                             ))}
                         </div>
-                        <Link href="/municipal-structure" className="mt-8 inline-flex items-center gap-1 text-sm font-bold text-[#1a3a6b] hover:text-[#FFBC02]">
-                            View full municipal structure <ArrowRight size={16}/>
+                        <Link
+                            href="/municipal-structure"
+                            className="group mt-12 inline-flex items-center gap-1.5 text-sm font-bold text-[#007bff] transition hover:text-[#F7941D]"
+                        >
+                            View full municipal structure
+                            <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                         </Link>
                     </div>
                 </section>
             )}
 
-            {/* News */}
+            {/* ============ NEWS ============ */}
             {latestNews.length > 0 && (
-                <section className="bg-white py-16">
+                <section className="bg-white py-20 sm:py-24">
                     <div className="mx-auto max-w-7xl px-6">
-                        <div className="mb-8">
-                            <div className="mb-2 h-0.5 w-8 bg-[#FFBC02]"/>
-                            <h2 className="font-serif text-2xl font-bold text-[#1a3a6b]">News & Updates</h2>
+                        <div className="mb-12">
+                            <p className="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-[#F7941D]">
+                                <span className="h-px w-8 bg-[#F7941D]" /> Latest
+                            </p>
+                            <h2 className="font-serif text-2xl font-bold text-[#007bff] sm:text-3xl">News &amp; Updates</h2>
                         </div>
-                        <div className="grid gap-6 md:grid-cols-3">
+                        <div className="grid gap-7 md:grid-cols-3">
                             {latestNews.map(item => (
-                                <Link key={item.id} href={`/news/${item.slug}`}
-                                    className="group rounded-lg border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+                                <Link
+                                    key={item.id}
+                                    href={`/news/${item.slug}`}
+                                    className="group rounded-xl border border-slate-100 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60"
+                                >
                                     {item.published_at && (
-                                        <p className="text-xs font-bold uppercase tracking-wide text-[#FFBC02]">
-                                            {new Date(item.published_at).toLocaleDateString('en-KE',{year:'numeric',month:'long',day:'numeric'})}
+                                        <p className="text-[11px] font-bold uppercase tracking-wide text-[#F7941D]">
+                                            {new Date(item.published_at).toLocaleDateString('en-KE', { year: 'numeric', month: 'long', day: 'numeric' })}
                                         </p>
                                     )}
-                                    <h3 className="mt-2 font-bold text-[#1a3a6b] group-hover:text-[#FFBC02] transition">{item.title}</h3>
-                                    <p className="mt-2 text-sm text-[#1a3a6b]/70 leading-relaxed">{item.excerpt}</p>
-                                    <p className="mt-3 text-xs font-bold text-[#FFBC02] flex items-center gap-1">Read more <ArrowRight size={12}/></p>
+                                    <h3 className="mt-3 font-serif text-lg font-bold text-[#007bff] transition-colors group-hover:text-[#F7941D]">
+                                        {item.title}
+                                    </h3>
+                                    <p className="mt-3 text-sm leading-relaxed text-slate-600">{item.excerpt}</p>
+                                    <p className="mt-4 flex items-center gap-1 text-xs font-bold text-[#F7941D]">
+                                        Read more
+                                        <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
+                                    </p>
                                 </Link>
                             ))}
                         </div>
