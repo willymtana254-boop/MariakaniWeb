@@ -61,13 +61,13 @@ export default function Navbar() {
                 <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6">
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex items-center text-black">
-                        <Link href="/" className="flex items-center gap-2 sm:gap-3 text-black">
-                        <img src='/images/logo/kilifi-crest.webp' className='w-10 h-12'/>
-                        <div className="hidden sm:block">
-                            <p className="font-bold text-white text-xs sm:text-base leading-tight uppercase tracking-wide">Municipality</p>
-                            <p className="font-bold text-white text-xs sm:text-base leading-tight uppercase tracking-wide">of Mariakani</p>
-                        </div>
-                    </Link>
+                        <Link href="/" className="flex items-center gap-2 sm:gap-3 text-black p-2">
+                            <img src='/images/logo/kilifi-crest.webp' className='w-10 h-12'/>
+                            <div className="hidden sm:block">
+                                <p className="font-bold text-black text-xs sm:text-base leading-tight uppercase tracking-wide">Municipality</p>
+                                <p className="font-bold text-black text-xs sm:text-base leading-tight uppercase tracking-wide">of Mariakani</p>
+                            </div>
+                        </Link>
                         {NAV_LINKS.map((link) => (
                             <div key={link.href} className="group relative">
                                 <Link
