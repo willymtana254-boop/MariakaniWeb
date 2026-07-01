@@ -48,7 +48,15 @@ export default function ProjectsShow({ project, otherProjects }: Props) {
             </section>
 
             <section className="mx-auto max-w-4xl px-6 py-16">
-                <div className="mb-10 h-64 rounded-xl bg-[#007bff]/10" />
+                {project.image_path ? (
+                    <img
+                        src={`/storage/${project.image_path}`}
+                        alt={project.title}
+                        className="mb-10 h-64 w-full rounded-xl object-cover"
+                    />
+                ) : (
+                    <div className="mb-10 h-64 rounded-xl bg-[#007bff]/10" />
+                )}
                 {project.description && (
                     <p className="whitespace-pre-line text-base leading-relaxed text-[#007bff]/80">
                         {project.description}
@@ -65,17 +73,28 @@ export default function ProjectsShow({ project, otherProjects }: Props) {
                                 <Link
                                     key={p.id}
                                     href={`/projects/${p.slug}`}
-                                    className="group rounded-xl border border-[#007bff]/10 bg-white p-6 shadow-sm transition hover:shadow-md"
+                                    className="group overflow-hidden rounded-xl border border-[#007bff]/10 bg-white shadow-sm transition hover:shadow-md"
                                 >
-                                    {p.category && (
-                                        <span className="text-xs font-semibold uppercase tracking-wide text-[#F7941D]">
-                                            {p.category}
-                                        </span>
+                                    {p.image_path ? (
+                                        <img
+                                            src={`/storage/${p.image_path}`}
+                                            alt={p.title}
+                                            className="h-40 w-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="h-40 bg-[#007bff]/10" />
                                     )}
-                                    <h3 className="mt-2 font-serif text-base font-semibold text-[#007bff] group-hover:text-[#F7941D]">
-                                        {p.title}
-                                    </h3>
-                                    <p className="mt-2 text-sm leading-relaxed text-[#007bff]/70">{p.summary}</p>
+                                    <div className="p-6">
+                                        {p.category && (
+                                            <span className="text-xs font-semibold uppercase tracking-wide text-[#F7941D]">
+                                                {p.category}
+                                            </span>
+                                        )}
+                                        <h3 className="mt-2 font-serif text-base font-semibold text-[#007bff] group-hover:text-[#F7941D]">
+                                            {p.title}
+                                        </h3>
+                                        <p className="mt-2 text-sm leading-relaxed text-[#007bff]/70">{p.summary}</p>
+                                    </div>
                                 </Link>
                             ))}
                         </div>

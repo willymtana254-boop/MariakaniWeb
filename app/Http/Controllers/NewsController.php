@@ -16,7 +16,7 @@ class NewsController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('News/Index', [
+        return Inertia::render('news/Index', [
             'news' => NewsUpdate::whereNotNull('published_at')
                 ->orderByDesc('published_at')
                 ->paginate(9)
@@ -29,7 +29,7 @@ class NewsController extends Controller
      */
     public function show(NewsUpdate $news): Response
     {
-        return Inertia::render('News/Show', [
+        return Inertia::render('news/Show', [
             'article' => $news,
             'otherNews' => NewsUpdate::where('id', '!=', $news->id)
                 ->whereNotNull('published_at')

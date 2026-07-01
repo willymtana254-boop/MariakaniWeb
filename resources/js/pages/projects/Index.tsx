@@ -8,6 +8,7 @@ interface Project {
     summary: string;
     category: string | null;
     status: string;
+    image_path: string | null;
 }
 
 interface Props {
@@ -21,6 +22,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export default function ProjectsIndex({ projects }: Props) {
+    console.log(projects)
     return (
         <MainLayout title="Projects">
             <section className="bg-[#007bff] py-16 text-white">
@@ -41,7 +43,15 @@ export default function ProjectsIndex({ projects }: Props) {
                         {projects.map((project) => (
                             <Link key={project.id} href={`/projects/${project.slug}`}
                                 className="group overflow-hidden rounded-xl border border-[#007bff]/10 bg-white shadow-sm transition hover:shadow-md">
-                                <div className="h-40 bg-[#007bff]/10" />
+                                {project.image_path ? (
+                                    <img
+                                        src={`/storage/${project.image_path}`}
+                                        alt={project.title}
+                                        className="h-40 w-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="h-40 bg-[#007bff]/10" />
+                                )}
                                 <div className="p-5">
                                     <div className="flex items-center gap-2">
                                         {project.category && (
