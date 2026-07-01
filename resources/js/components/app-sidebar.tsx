@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid, Newspaper, Users } from 'lucide-react';
+import { Briefcase, BookOpen, FolderGit2, LayoutGrid, Newspaper, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -15,7 +15,8 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as boardMembersIndex } from '@/routes/board-members';
-import { index as newsIndex } from '@/routes/news';
+import { manage as newsManage } from '@/routes/news';
+import { manage as projectsManage } from '@/routes/projects';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -29,11 +30,16 @@ const mainNavItems: NavItem[] = [
         href: boardMembersIndex(),
         icon: Users,
     },
-    {   title: 'News', 
-        href: newsIndex(), 
-        icon: Newspaper 
+    {
+        title: 'Projects',
+        href: projectsManage(),
+        icon: Briefcase,
     },
-
+    {
+        title: 'News',
+        href: newsManage(),
+        icon: Newspaper,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

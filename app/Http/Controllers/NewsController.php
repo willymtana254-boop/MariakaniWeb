@@ -40,6 +40,16 @@ class NewsController extends Controller
     }
 
     /**
+     * Admin: list all news (published and drafts) for management.
+     */
+    public function manage(): Response
+    {
+        return Inertia::render('news/manage', [
+            'news' => NewsUpdate::orderByDesc('created_at')->paginate(15)->withQueryString(),
+        ]);
+    }
+
+    /**
      * Admin: show the form for creating a new article.
      */
     public function create(): Response
@@ -53,11 +63,11 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'         => ['required', 'string', 'max:255'],
-            'excerpt'       => ['nullable', 'string', 'max:500'],
-            'content'       => ['required', 'string'],
-            'image'         => ['nullable', 'image', 'max:2048'],
-            'published_at'  => ['nullable', 'date'],
+            'title'        => ['required', 'string', 'max:255'],
+            'excerpt'      => ['nullable', 'string', 'max:500'],
+            'content'      => ['required', 'string'],
+            'image'        => ['nullable', 'image', 'max:2048'],
+            'published_at' => ['nullable', 'date'],
         ]);
 
         $validated['slug'] = $this->uniqueSlug($validated['title']);
@@ -71,7 +81,7 @@ class NewsController extends Controller
         NewsUpdate::create($validated);
 
         return redirect()
-            ->route('news.index')
+            ->route('news.manage')
             ->with('success', 'Article created successfully.');
     }
 
@@ -115,7 +125,7 @@ class NewsController extends Controller
         $news->update($validated);
 
         return redirect()
-            ->route('news.index')
+            ->route('news.manage')
             ->with('success', 'Article updated successfully.');
     }
 
@@ -131,7 +141,7 @@ class NewsController extends Controller
         $news->delete();
 
         return redirect()
-            ->route('news.index')
+            ->route('news.manage')
             ->with('success', 'Article deleted successfully.');
     }
 
