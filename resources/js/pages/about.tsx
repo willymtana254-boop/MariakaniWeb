@@ -35,7 +35,7 @@ export default function About({ aboutContent, stats }: Props) {
         <MainLayout title="About Us">
             {/* ============ HERO ============ */}
             <section className="relative isolate overflow-hidden bg-[#007bff] py-24 text-white sm:py-28">
-                <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#007bff] via-[#0066d6] to-[#0B2545]" />
+                <div className="absolute inset-0 -z-10 bg-linear-to-br from-[#007bff] via-[#0066d6] to-[#0B2545]" />
                 <div
                     className="pointer-events-none absolute inset-0 opacity-[0.06]"
                     style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '28px 28px' }}
@@ -53,7 +53,7 @@ export default function About({ aboutContent, stats }: Props) {
                     <div className="mt-9">
                         <Link
                             href="/contact"
-                            className="group inline-flex items-center gap-2 rounded-md bg-[#F7941D] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-black/10 transition hover:bg-[#e08a1a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                            className="group inline-flex items-center gap-2 rounded-md bg-[#F7941D] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-black/10 transition hover:bg-[#e08a1a] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white"
                         >
                             Contact Us
                             <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
@@ -131,7 +131,7 @@ export default function About({ aboutContent, stats }: Props) {
                                 <span className="h-px w-8 bg-[#F7941D]" /> Our story
                             </p>
                             <h2 className="font-serif text-2xl font-bold text-[#007bff] sm:text-3xl">Our History</h2>
-                            <div className="relative mt-6 flex h-64 w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#007bff] to-[#0B2545]">
+                            <div className="relative mt-6 flex h-64 w-full items-center justify-center overflow-hidden rounded-xl bg-linear-to-br from-[#007bff] to-[#0B2545]">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(247,148,29,0.25),transparent_60%)]" />
                                 <Building2 size={56} className="relative text-white/80" />
                             </div>
@@ -216,7 +216,7 @@ export default function About({ aboutContent, stats }: Props) {
                             {stats.map(stat => (
                                 <div
                                     key={stat.id}
-                                    className="group flex flex-col items-center justify-center gap-1 bg-white px-4 py-10 text-center transition-colors duration-300 hover:bg-[#007bff]/[0.03]"
+                                    className="group flex flex-col items-center justify-center gap-1 bg-white px-4 py-10 text-center transition-colors duration-300 hover:bg-[#007bff]/3"
                                 >
                                     <p className="font-serif text-3xl font-bold text-[#0B2545] transition-colors duration-300 group-hover:text-[#007bff]">
                                         {stat.value}

@@ -14,8 +14,8 @@ interface ContentBlock { key: string; title: string|null; body: string|null; ima
 interface Stat { id: number; label: string; value: string; suffix: string|null; }
 interface Ward { id: number; name: string; }
 interface Project { id: number; title: string; slug: string; summary: string; category: string|null; image_path: string|null; }
-interface BoardMember { id: number; name: string; role: string; bio: string|null; }
-interface NewsItem { id: number; title: string; slug: string; excerpt: string; published_at: string|null; }
+interface BoardMember { id: number; name: string; role: string; bio: string|null; photo_path: string|null; }
+interface NewsItem { id: number; title: string; slug: string; excerpt: string; published_at: string|null; image_path: string|null; }
 
 interface Props {
     objectives: ContentBlock|null; functions: ContentBlock|null; boundaries: ContentBlock|null;
@@ -46,7 +46,7 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                     <div
                         key={s.src}
                         aria-hidden={i !== slide}
-                        className="absolute inset-0 -z-20 scale-105 bg-cover bg-center transition-opacity duration-[1400ms] ease-out"
+                        className="absolute inset-0 -z-20 scale-105 bg-cover bg-center transition-opacity duration-1400 ease-out"
                         style={{ backgroundImage: `url(${s.src})`, opacity: i === slide ? 1 : 0 }}
                     />
                 ))}
@@ -55,14 +55,14 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                 <button
                     onClick={() => setSlide(s => (s - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
                     aria-label="Previous slide"
-                    className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7941D]"
+                    className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/25 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#F7941D]"
                 >
                     <ChevronLeft size={18} />
                 </button>
                 <button
                     onClick={() => setSlide(s => (s + 1) % HERO_SLIDES.length)}
                     aria-label="Next slide"
-                    className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F7941D]"
+                    className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/25 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#F7941D]"
                 >
                     <ChevronRight size={18} />
                 </button>
@@ -85,14 +85,14 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                     <div className="mt-9 flex flex-wrap gap-4">
                         <Link
                             href="/about"
-                            className="group inline-flex items-center gap-2 rounded-md bg-[#F7941D] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#F7941D]/20 transition hover:bg-[#e08a1a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                            className="group inline-flex items-center gap-2 rounded-md bg-[#F7941D] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#F7941D]/20 transition hover:bg-[#e08a1a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                         >
                             Learn More
                             <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
                         </Link>
                         <Link
                             href="/contact"
-                            className="rounded-md border border-white/35 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                            className="rounded-md border border-white/35 px-7 py-3.5 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white"
                         >
                             Contact Us
                         </Link>
@@ -179,9 +179,17 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
             {governorMessage && (
                 <section className="bg-[#F8FAFC] py-20 sm:py-24">
                     <div className="mx-auto grid max-w-7xl gap-12 px-6 md:grid-cols-[220px_1fr] md:items-start">
-                        <div className="flex h-44 w-44 shrink-0 items-center justify-center rounded-full bg-[#007bff] font-serif text-5xl font-bold text-[#F7941D] shadow-md">
-                            {governorMessage.byline?.[0] ?? 'G'}
-                        </div>
+                        {governorMessage.image_path ? (
+                            <img
+                                src={`/storage/${governorMessage.image_path}`}
+                                alt={governorMessage.byline ?? 'Governor'}
+                                className="h-44 w-44 shrink-0 rounded-full object-cover shadow-md ring-4 ring-white"
+                            />
+                        ) : (
+                            <div className="flex h-44 w-44 shrink-0 items-center justify-center rounded-full bg-[#007bff] font-serif text-5xl font-bold text-[#F7941D] shadow-md">
+                                {governorMessage.byline?.[0] ?? 'G'}
+                            </div>
+                        )}
                         <div>
                             <p className="mb-3 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-[#F7941D]">
                                 <span className="h-px w-8 bg-[#F7941D]" /> Message
@@ -218,7 +226,7 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                             {stats.map(stat => (
                                 <div
                                     key={stat.id}
-                                    className="flex flex-col items-center justify-center gap-1 bg-[#007bff] px-4 py-10 text-center transition-colors hover:bg-white/[0.04]"
+                                    className="flex flex-col items-center justify-center gap-1 bg-[#007bff] px-4 py-10 text-center transition-colors hover:bg-white/4"
                                 >
                                     <p className="font-serif text-4xl font-bold text-white">
                                         {stat.value}<span className="text-[#F7941D]">{stat.suffix}</span>
@@ -256,9 +264,19 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                                     href={`/projects/${p.slug}`}
                                     className="group overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60"
                                 >
-                                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-[#007bff] to-[#007bff]/70">
-                                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(247,148,29,0.25),transparent_60%)]" />
-                                    </div>
+                                    {p.image_path ? (
+                                        <div className="relative h-48 overflow-hidden">
+                                            <img
+                                                src={`/storage/${p.image_path}`}
+                                                alt={p.title}
+                                                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="relative h-48 overflow-hidden bg-linear-to-br from-[#007bff] to-[#007bff]/70">
+                                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(247,148,29,0.25),transparent_60%)]" />
+                                        </div>
+                                    )}
                                     <div className="p-6">
                                         {p.category && (
                                             <span className="text-[11px] font-bold uppercase tracking-wide text-[#F7941D]">{p.category}</span>
@@ -293,11 +311,19 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
                             {boardPreview.map(m => (
                                 <div key={m.id} className="group text-center">
-                                    <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-[#007bff] to-[#007bff]/70 ring-4 ring-white transition-transform duration-300 group-hover:scale-105">
-                                        <div className="absolute inset-0 flex items-center justify-center font-serif text-2xl font-bold text-[#F7941D]">
-                                            {m.name.charAt(0)}
+                                    {m.photo_path ? (
+                                        <img
+                                            src={`/storage/${m.photo_path}`}
+                                            alt={m.name}
+                                            className="mx-auto h-24 w-24 rounded-full object-cover ring-4 ring-white transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                    ) : (
+                                        <div className="relative mx-auto h-24 w-24 overflow-hidden rounded-full bg-linear-to-br from-[#007bff] to-[#007bff]/70 ring-4 ring-white transition-transform duration-300 group-hover:scale-105">
+                                            <div className="absolute inset-0 flex items-center justify-center font-serif text-2xl font-bold text-[#F7941D]">
+                                                {m.name.charAt(0)}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
                                     <h3 className="mt-4 text-sm font-bold text-[#007bff]">{m.name}</h3>
                                     <p className="text-xs font-semibold uppercase tracking-wide text-[#F7941D]">{m.role}</p>
                                 </div>
@@ -329,21 +355,32 @@ export default function Home({ objectives, functions: municipalFunctions, bounda
                                 <Link
                                     key={item.id}
                                     href={`/news/${item.slug}`}
-                                    className="group rounded-xl border border-slate-100 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60"
+                                    className="group overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60"
                                 >
-                                    {item.published_at && (
-                                        <p className="text-[11px] font-bold uppercase tracking-wide text-[#F7941D]">
-                                            {new Date(item.published_at).toLocaleDateString('en-KE', { year: 'numeric', month: 'long', day: 'numeric' })}
-                                        </p>
+                                    {item.image_path && (
+                                        <div className="h-40 overflow-hidden">
+                                            <img
+                                                src={`/storage/${item.image_path}`}
+                                                alt={item.title}
+                                                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                            />
+                                        </div>
                                     )}
-                                    <h3 className="mt-3 font-serif text-lg font-bold text-[#007bff] transition-colors group-hover:text-[#F7941D]">
-                                        {item.title}
-                                    </h3>
-                                    <p className="mt-3 text-sm leading-relaxed text-slate-600">{item.excerpt}</p>
-                                    <p className="mt-4 flex items-center gap-1 text-xs font-bold text-[#F7941D]">
-                                        Read more
-                                        <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
-                                    </p>
+                                    <div className="p-7">
+                                        {item.published_at && (
+                                            <p className="text-[11px] font-bold uppercase tracking-wide text-[#F7941D]">
+                                                {new Date(item.published_at).toLocaleDateString('en-KE', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                            </p>
+                                        )}
+                                        <h3 className="mt-3 font-serif text-lg font-bold text-[#007bff] transition-colors group-hover:text-[#F7941D]">
+                                            {item.title}
+                                        </h3>
+                                        <p className="mt-3 text-sm leading-relaxed text-slate-600">{item.excerpt}</p>
+                                        <p className="mt-4 flex items-center gap-1 text-xs font-bold text-[#F7941D]">
+                                            Read more
+                                            <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
+                                        </p>
+                                    </div>
                                 </Link>
                             ))}
                         </div>
